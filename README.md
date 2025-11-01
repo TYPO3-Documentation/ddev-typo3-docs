@@ -1,7 +1,7 @@
 [![add-on registry](https://img.shields.io/badge/DDEV-Add--on_Registry-blue)](https://addons.ddev.com)
-[![tests](https://github.com/ddev/ddev-typo3-docs/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/ddev/ddev-typo3-docs/actions/workflows/tests.yml?query=branch%3Amain)
-[![last commit](https://img.shields.io/github/last-commit/ddev/ddev-typo3-docs)](https://github.com/ddev/ddev-typo3-docs/commits)
-[![release](https://img.shields.io/github/v/release/ddev/ddev-typo3-docs)](https://github.com/ddev/ddev-typo3-docs/releases/latest)
+[![tests](https://github.com/TYPO3-Documentation/ddev-typo3-docs/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/TYPO3-Documentation/ddev-typo3-docs/actions/workflows/tests.yml?query=branch%3Amain)
+[![last commit](https://img.shields.io/github/last-commit/TYPO3-Documentation/ddev-typo3-docs)](https://github.com/TYPO3-Documentation/ddev-typo3-docs/commits)
+[![release](https://img.shields.io/github/v/release/TYPO3-Documentation/ddev-typo3-docs)](https://github.com/TYPO3-Documentation/ddev-typo3-docs/releases/latest)
 
 # DDEV TYPO3 Documentation (standalone)
 
@@ -80,18 +80,19 @@ ddev launch :1337
 
 Everything is aimed to be executed with zero-configuration.
 
-However, you can adapt two things:
+However, you can adapt:
 
-- HTTP port of the local rendering server (default: 1337)
+- HTTP(s) port of the local rendering server (default: 1337)
 - Target documentation directory (default: Documentation)
 - Additional "render-guides" CLI arguments
+- Use Docker container (to test with local container builds)
 
 This is achieved via ENV (Environment) variables
 in your `.ddev/config.yaml` file:
 
 | Variable | Flag | Default |
 | -------- | ---- | ------- |
-| `RENDER_GUIDES_BASE_IMAGE` | `--render-guides-base-image` | `1337` |
+| `RENDER_GUIDES_BASE_IMAGE` | `--render-guides-base-image` | `ghcr.io/typo3-documentation/render-guides:latest` |
 | `RENDER_GUIDES_PORT` | `--render-guides-port` | `1337` |
 | `RENDER_GUIDES_DOCS_PATH` | `--render-guides-docs-path` | `Documentation` |
 | `RENDER_GUIDES_ARGS` | `--render-guides-args` | `--verbose` |
