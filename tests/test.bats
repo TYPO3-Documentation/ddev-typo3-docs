@@ -16,7 +16,7 @@ setup() {
   set -eu -o pipefail
 
   # Override this variable for your add-on:
-  export GITHUB_REPO=ddev/ddev-typo3-docs
+  export GITHUB_REPO=TYPO3-Documentation/ddev-typo3-docs
 
   TEST_BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
   export BATS_LIB_PATH="${BATS_LIB_PATH}:${TEST_BREW_PREFIX}/lib:/usr/lib/bats"
@@ -53,7 +53,7 @@ health_checks() {
   assert_output --partial "HTTP/1.1 200"
 
   echo "Docs via HTTP from outside is shown" >&3
-  run curl -sfL https://${PROJNAME}.ddev.site:1338
+  run curl -sfL https://${PROJNAME}.ddev.site:1337
   assert_success
   assert_output --partial "HTTP/1.1 200"
 }
