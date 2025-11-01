@@ -43,6 +43,7 @@ interface of the ReST files to see your results in real-time, like WYSIWYG
 > leaks on long runtime, resource exhaustion.
 > Please report any bugs you find!
 
+
 Prerequisites:
 
 - A DDEV project directory with existing or fresh configuration
@@ -56,6 +57,22 @@ ddev add-on get ddev/ddev-typo3-docs
 ddev restart
 ```
 
+> ![IMPORTANT]
+> For now this add-on is not yet pushed to the official DDEV add-on
+> registry, so you need to install it via:
+> ```bash
+> ddev add-on get https://github.com/TYPO3-Documentation/ddev-typo3-docs
+> ```
+
+> ![IMPORTANT]
+> Also, the official docker image is not yet released with support of
+> hot-reloading. To enable it, the project needs to be locally built
+> and delivered with a local "typo3-docs:local" container (via `make
+> vendor`). And then that container needs to be utilized:
+> ```bash
+> ddev dotenv set .ddev/.env.typo3-docs-build --render-guides-base-image="typo3-docs:local"
+> ```
+
 After installation, make sure to commit the `.ddev` directory to version control.
 
 Then you can see your rendered documentation via:
@@ -63,10 +80,6 @@ Then you can see your rendered documentation via:
 ```bash
 ddev launch :1337
 ```
-
-## Project installation
-
-
 
 ## Usage
 
