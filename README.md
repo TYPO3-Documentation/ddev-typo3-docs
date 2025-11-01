@@ -27,8 +27,8 @@ can then be accessed via the `https://<project>.ddev.site:1337/` sub-domain
 and will show that rendered documentation.
 
 The local server providing this rendered documentation is capable of
-**hot-reloading**. That means, any changes made to the raw source `*.rst` files
-will be immediately reflected in the browser.
+**hot-reloading / live document preview / watch mode**. That means, any changes made to
+the raw source `*.rst` files will be immediately reflected in the browser.
 
 That way, you do not need to manually re-trigger rendering of documentation
 after every change, and you can have a browser-window next to your editing
@@ -66,7 +66,7 @@ ddev restart
 
 > [!IMPORTANT]
 > Also, the official docker image is not yet released with support of
-> hot-reloading. To enable it, the project needs to be locally built
+> live document preview. To enable it, the project needs to be locally built
 > and delivered with a local "typo3-docs:local" container (via `make
 > vendor`). And then that container needs to be utilized:
 > ```bash
