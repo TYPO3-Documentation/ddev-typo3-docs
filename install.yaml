@@ -1,0 +1,6 @@
+name: typo3-docs
+
+project_files:
+  - docker-compose.typo3-docs.yaml
+
+ddev_version_constraint: '>= v1.24.3'
