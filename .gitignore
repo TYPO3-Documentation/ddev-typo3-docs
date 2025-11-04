@@ -1,2 +1,4 @@
 /.idea
 /.ddev
+/Documentation-GENERATED-Temp/*
+!/Documentation-GENERATED-Temp/.gitkeep
