@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<guides
+    xmlns="https://www.phpdoc.org/guides"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://www.phpdoc.org/guides vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+>
+    <project
+        title="DDEV TYPO3 Documentation Add-On"
+        version="main"
+        release="main"
+        copyright="Since 2023 TYPO3 Documentation Team and Contributors"
+    />
+    <extension
+        class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+        edit-on-github="TYPO3-Documentation/ddev-typo3-docs"
+        edit-on-github-branch="main"
+        interlink-shortcode="t3ddevaddon"
+        project-contact="https://typo3.slack.com/archives/C0638JMJVLY"
+        project-home="https://github.com/TYPO3-Documentation/ddev-typo3-docs"
+        project-issues="https://github.com/TYPO3-Documentation/ddev-typo3-docs/issues"
+        project-repository="https://github.com/TYPO3-Documentation/ddev-typo3-docs"
+        typo3-core-preferred="stable"
+    />
+</guides>
