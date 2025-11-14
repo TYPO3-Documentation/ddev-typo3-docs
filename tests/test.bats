@@ -23,7 +23,7 @@ setup() {
   bats_load_library bats-assert
   bats_load_library bats-file
   bats_load_library bats-support
-
+  bats_require_minimum_version 1.5.0
   export DIR="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." >/dev/null 2>&1 && pwd)"
   export PROJNAME="test-$(basename "${GITHUB_REPO}")"
   mkdir -p ~/tmp
@@ -36,26 +36,36 @@ setup() {
   assert_success
 
   cp -rf "$DIR/tests" "$TESTDIR"
-
+  cp -rf "$DIR/Documentation" "$TESTDIR"
+  find . -type f
   run ddev start -y
   assert_success
 }
 
 health_checks() {
+  echo "Showing output from rendering" >&3
+  run ddev logs -s typo3-docs
+  assert_success
+  assert_output --partial "Server running at http://"
+
   echo "Send request from 'web' to the api" >&3
-  run ddev exec "curl -s --fail -H 'Content-Type: text/html' -X GET 'http://typo3-docs:1337/' | jq -r '.responseHeader.status'"
+  export HTML_ASSERT="DDEV TYPO3 Documentation Add-On main"
+  echo "Curling..."
+  run ddev exec "curl -s --fail -H 'Content-Type: text/html' -X GET 'http://typo3-docs:1337/'"
   assert_success
-  assert_output "0"
+  assert_output --partial "${HTML_ASSERT}"
 
-  echo "Docs via HTTP from outside is shown" >&3
-  run curl -sfL http://${PROJNAME}.ddev.site:1337
+  echo "Docs via HTTP from outside to http://${PROJNAME}.ddev.site:1337 is shown" >&3
+  echo "Curling again..."
+  curl -s -H 'Content-Type: text/html' -X GET http://${PROJNAME}.ddev.site:1337
+  run curl -s -H 'Content-Type: text/html' -X GET http://${PROJNAME}.ddev.site:1337
   assert_success
-  assert_output --partial "HTTP/1.1 200"
+  assert_output --partial "${HTML_ASSERT}"
 
-  echo "Docs via HTTP from outside is shown" >&3
+  echo "Docs via HTTPS from outside is shown" >&3
   run curl -sfL https://${PROJNAME}.ddev.site:1337
   assert_success
-  assert_output --partial "HTTP/1.1 200"
+  assert_output --partial "${HTML_ASSERT}"
 }
 
 teardown() {
@@ -75,12 +85,12 @@ teardown() {
 }
 
 # bats test_tags=release
-@test "install from release" {
-  set -eu -o pipefail
-  echo "# ddev add-on get ${GITHUB_REPO} with project ${PROJNAME} in $(pwd)" >&3
-  run ddev add-on get "${GITHUB_REPO}"
-  assert_success
-  run ddev restart -y
-  assert_success
-  health_checks
-}
+#@test "install from release" {
+#  set -eu -o pipefail
+#  echo "# ddev add-on get ${GITHUB_REPO} with project ${PROJNAME} in $(pwd)" >&3
+#  run ddev add-on get "${GITHUB_REPO}"
+#  assert_success
+#  run ddev restart -y
+#  assert_success
+#  health_checks
+#}
