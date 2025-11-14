@@ -44,7 +44,7 @@ setup() {
 
 health_checks() {
   echo "Showing output from rendering" >&3
-  run ddev logs -s typo3-docs
+  run ddev logs -s typo3-docs >&3
   assert_success
   assert_output --partial "Server running at http://"
 
