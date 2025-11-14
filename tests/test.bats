@@ -43,10 +43,13 @@ setup() {
 }
 
 health_checks() {
-  echo "Showing output from rendering" >&3
-  run ddev logs -s typo3-docs >&3
+  echo "Evaluating output from rendering" >&3
+  run ddev logs -s typo3-docs
   assert_success
   assert_output --partial "Server running at http://"
+
+  echo "Showing output from rendering" >&3
+  ddev logs -s typo3-docs >&3
 
   echo "Send request from 'web' to the api" >&3
   export HTML_ASSERT="DDEV TYPO3 Documentation Add-On main"
