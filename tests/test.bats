@@ -27,7 +27,7 @@ setup() {
   export DIR="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." >/dev/null 2>&1 && pwd)"
   export PROJNAME="test-$(basename "${GITHUB_REPO}")"
   mkdir -p ~/tmp
-  export TESTDIR=$(mktemp -d ~/tmp/${PROJNAME}.XXXXXX)
+  export TESTDIR=$(mktemp -d -t ${PROJNAME}.XXXXXX)
   export DDEV_NONINTERACTIVE=true
   export DDEV_NO_INSTRUMENTATION=true
   ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
@@ -56,9 +56,7 @@ health_checks() {
   assert_output --partial "${HTML_ASSERT}"
 
   echo "Docs via HTTP from outside to http://${PROJNAME}.ddev.site:1337 is shown" >&3
-  echo "Curling again..."
-  curl -s -H 'Content-Type: text/html' -X GET http://${PROJNAME}.ddev.site:1337
-  run curl -s -H 'Content-Type: text/html' -X GET http://${PROJNAME}.ddev.site:1337
+  run curl -sfL http://${PROJNAME}.ddev.site:1337
   assert_success
   assert_output --partial "${HTML_ASSERT}"
 
@@ -71,7 +69,9 @@ health_checks() {
 teardown() {
   set -eu -o pipefail
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1
-  [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
+  echo "Teardown ${TESTDIR}" >&3
+  ls -lR ${TESTDIR} >&3
+  [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR} || true
 }
 
 @test "install from directory" {
@@ -85,12 +85,12 @@ teardown() {
 }
 
 # bats test_tags=release
-#@test "install from release" {
-#  set -eu -o pipefail
-#  echo "# ddev add-on get ${GITHUB_REPO} with project ${PROJNAME} in $(pwd)" >&3
-#  run ddev add-on get "${GITHUB_REPO}"
-#  assert_success
-#  run ddev restart -y
-#  assert_success
-#  health_checks
-#}
+@test "install from release" {
+  set -eu -o pipefail
+  echo "# ddev add-on get ${GITHUB_REPO} with project ${PROJNAME} in $(pwd)" >&3
+  run ddev add-on get "${GITHUB_REPO}"
+  assert_success
+  run ddev restart -y
+  assert_success
+  health_checks
+}
