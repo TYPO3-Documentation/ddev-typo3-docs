@@ -5,6 +5,7 @@ services:
     container_name: ddev-${DDEV_SITENAME}-typo3-docs
     hostname: ${DDEV_SITENAME}-typo3-docs
     image: ${RENDER_GUIDES_BASE_IMAGE:-ghcr.io/typo3-documentation/render-guides:latest}
+    user: "${DDEV_UID}:${DDEV_GID}"
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: ${DDEV_APPROOT}
