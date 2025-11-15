@@ -37,6 +37,7 @@ setup() {
 
   cp -rf "$DIR/tests" "$TESTDIR"
   cp -rf "$DIR/Documentation" "$TESTDIR"
+  cp -rf "$DIR/Documentation-GENERATED-temp" "$TESTDIR"
   find . -type f
   run ddev start -y
   assert_success
