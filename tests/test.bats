@@ -84,9 +84,6 @@ teardown() {
   run ddev add-on get "${DIR}"
   assert_success
   run ddev restart -y
-  echo "Showing output from rendering" >&3
-  ddev logs -s typo3-docs >&3
-  run ddev restart -y
   assert_success
   health_checks
 }
