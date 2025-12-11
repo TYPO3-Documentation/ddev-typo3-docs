@@ -60,10 +60,6 @@ ddev add-on get TYPO3-Documentation/ddev-typo3-docs
 ddev restart
 ```
 
-> [!IMPORTANT]
-> For now this add-on is not yet pushed to the official DDEV add-on
-> registry
-
 > [!NOTE]
 > You can also pick a different rendering container, like local ones
 > or older / newer versions. For example when the underlying "render-guides" image is
