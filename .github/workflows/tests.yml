@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ddev/github-action-add-on-test@v2
+      - uses: ddev/github-action-add-on-test@1a55661204342fd16650a5a149395bfb1837d4b9
         with:
           ddev_version: ${{ matrix.ddev_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
