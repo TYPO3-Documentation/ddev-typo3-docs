@@ -8,12 +8,6 @@ on:
   - cron: '25 08 * * *'
 
   workflow_dispatch:
-    inputs:
-      debug_enabled:
-        type: boolean
-        description: Debug with tmate
-        required: false
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -34,10 +28,10 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Install Homebrew
+      - name: Set up Homebrew
         run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
+          echo "/home/linuxbrew/.linuxbrew/sbin" >> "$GITHUB_PATH"
 
       - name: Install test dependencies
         run: |
