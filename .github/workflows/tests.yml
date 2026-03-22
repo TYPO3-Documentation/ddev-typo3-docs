@@ -8,12 +8,6 @@ on:
   - cron: '25 08 * * *'
 
   workflow_dispatch:
-    inputs:
-      debug_enabled:
-        type: boolean
-        description: Debug with tmate
-        required: false
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -32,10 +26,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ddev/github-action-add-on-test@f040e6e6a6cada43dc75985f60c6a856c350f16e
-        with:
-          ddev_version: ${{ matrix.ddev_version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          debug_enabled: ${{ github.event.inputs.debug_enabled }}
-          addon_repository: ${{ env.GITHUB_REPOSITORY }}
-          addon_ref: ${{ env.GITHUB_REF }}
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Homebrew
+        run: |
+          echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
+          echo "/home/linuxbrew/.linuxbrew/sbin" >> "$GITHUB_PATH"
+
+      - name: Install test dependencies
+        run: |
+          brew tap bats-core/bats-core
+          brew install bats-core bats-file bats-assert bats-support jq mkcert yq
+          mkcert -install
+
+      - name: Install DDEV (stable)
+        if: matrix.ddev_version == 'stable'
+        run: brew install ddev/ddev/ddev
+
+      - name: Install DDEV (HEAD)
+        if: matrix.ddev_version == 'HEAD'
+        run: brew install --HEAD ddev/ddev/ddev
+
+      - name: Download DDEV docker images
+        run: ddev debug download-images
+
+      - name: Run tests
+        env:
+          DDEV_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DDEV_NONINTERACTIVE: "true"
+          DDEV_NO_INSTRUMENTATION: "true"
+        run: bats tests --filter-tags '!release'
